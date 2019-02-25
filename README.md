@@ -31,7 +31,25 @@ The wrapper requires MAPL and NUOPC to build and is included within
 the latest version of MAPL included in the GEOS develop branch.
 
 MAPL is currently only distributed with GEOS and is not
-publicly available at this time. 
+publicly available at this time.
+
+Contact kyle.gerheiser@nasa.gov if
+you would like to obtain a copy.
+
+# Usage
+
+To use the wrapper add a component to a NUOPC driver by calling
+NUOPC\_DriverAddComp using the wrapper SetServices and then call
+init\_wrapper on the returned ESMF\_GridComp with a name, the root
+MAPL SetServices, and the CAP.rc for the MAPL instance.
+
+```
+call NUOPC\_DriverAddComp(driver, "agcm", wrapper\_ss, comp = agcm,
+petlist = agcm\_petlist, rc = rc)
+
+call init\_wrapper(wrapper\_gc = agcm, name = "agcm", cap\_rc\_file =
+"AGCM\_CAP.rc", root\_set\_services = gcs\_set\_services, rc = rc)
+```
 
 
 # Limitations and Future Work
