@@ -44,11 +44,11 @@ init\_wrapper on the returned ESMF\_GridComp with a name, the root
 MAPL SetServices, and the CAP.rc for the MAPL instance.
 
 ```
-call NUOPC\_DriverAddComp(driver, "agcm", wrapper\_ss, comp = agcm,
+call NUOPC_DriverAddComp(driver, "agcm", wrapper_ss, comp = agcm,
 petlist = agcm\_petlist, rc = rc)
 
-call init\_wrapper(wrapper\_gc = agcm, name = "agcm", cap\_rc\_file =
-"AGCM\_CAP.rc", root\_set\_services = gcs\_set\_services, rc = rc)
+call init_wrapper(wrapper_gc = agcm, name = "agcm", cap_rc_file =
+"AGCM_CAP.rc", root_set\_services = gcs_set_services, rc = rc)
 ```
 
 
