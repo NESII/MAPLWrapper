@@ -45,10 +45,10 @@ MAPL SetServices, and the CAP.rc for the MAPL instance.
 
 ```
 call NUOPC_DriverAddComp(driver, "agcm", wrapper_ss, comp = agcm,
-petlist = agcm\_petlist, rc = rc)
+petlist = agcm_petlist, rc = rc)
 
 call init_wrapper(wrapper_gc = agcm, name = "agcm", cap_rc_file =
-"AGCM_CAP.rc", root_set\_services = gcs_set_services, rc = rc)
+"AGCM_CAP.rc", root_set_services = gcs_set_services, rc = rc)
 ```
 
 
