@@ -51,6 +51,29 @@ call init_wrapper(wrapper_gc = agcm, name = "agcm", cap_rc_file =
 "AGCM_CAP.rc", root_set_services = gcs_set_services, rc = rc)
 ```
 
+Then, in the CAP.rc file you can add imports or exports to NUOPC from
+MAPL.
+
+For imports add a line called "CAP_IMPORTS:" followed by a list of
+MAPL import names. For exports you must also add a comma followed by
+the component name.
+
+For example,
+
+```
+CAP_IMPORTS:
+	U
+	V
+	T
+	Q
+::
+
+CAP_EXPORTS:
+	U,DYN
+	V,DYN
+	Q,MOIST
+::
+```
 
 # Limitations and Future Work
 
