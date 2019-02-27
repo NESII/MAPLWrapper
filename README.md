@@ -7,7 +7,7 @@ components on different grids and use ESMF re-gridding, and it gives
 the ability to take an existing MAPL component or subtree and run it in a NUOPC
 system. 
 
-#Motivation
+# Motivation
 
 The motivation behind this wrapper is to make MAPL and NUOPC more
 interopable. Despite both being based on ESMF there was no way for a
