@@ -45,6 +45,8 @@ hierarchy with History and ExtData.
 Therefore, this wrapper is best suited for wrapping entire MAPL
 models or large pieces of it.
 
+![Diagram](wrapper_diagram.png)
+
 # Obtaining and Building
 
 The wrapper requires MAPL and NUOPC to build and is included within
