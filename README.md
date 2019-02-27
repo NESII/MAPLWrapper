@@ -1,6 +1,26 @@
 # MAPLWrapper
 
-A wrapper to make MAPL components NUOPC-compliant.
+A wrapper to make MAPL components NUOPC-compliant. This wrapper offers
+several unique features that unavailable through MAPL. It can run multiple MAPL components
+concurrently on separate sets of processors, it can run MAPL
+components on different grids and use ESMF re-gridding, and it gives
+the ability to take an existing MAPL component or subtree and run it in a NUOPC
+system. 
+
+#Motivation
+
+The motivation behind this wrapper is to make MAPL and NUOPC more
+interopable. Despite both being based on ESMF there was no way for a
+MAPL component to be run within NUOPC or vice-versa. A previous approach attempted
+to manually convert the MAPL ExtData component into a NUOPC component
+by replacing the MAPL code with NUOPC code,
+but this approach was time-consuming and difficult due to the many
+implicit assumptions that MAPL makes.
+
+The approach taken in this wrapper is different: it wraps an entire
+MAPL application or subtree at the Cap level with NUOPC. Through this
+approach MAPL components can run as they are with no changes to
+existing code. The NUOPC wrapper simply drives MAPL through a MAPL\_Cap object.
 
 # Implementation
 
@@ -54,8 +74,8 @@ call init_wrapper(wrapper_gc = agcm, name = "agcm", cap_rc_file =
 Then, in the CAP.rc file you can add imports or exports to NUOPC from
 MAPL.
 
-For imports add a line called "CAP_IMPORTS:" followed by a list of
-MAPL import names. For exports you must also add a comma followed by
+For imports add a line called "CAP\_IMPORTS:" followed by a list of
+MAPL import names. For exports it is "CAP\_EXPORTS:"you must also add a comma followed by
 the component name.
 
 For example,
@@ -74,6 +94,9 @@ CAP_EXPORTS:
 	Q,MOIST
 ::
 ```
+
+This will automatically advertise and realize the imports and exports
+for the NUOPC component, and can be connected with other components.
 
 # Limitations and Future Work
 
