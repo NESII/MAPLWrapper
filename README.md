@@ -45,6 +45,8 @@ hierarchy with History and ExtData.
 Therefore, this wrapper is best suited for wrapping entire MAPL
 models or large pieces of it.
 
+How the wrapper is used to couple two different MAPL components:
+
 ![Diagram](wrapper_diagram.png)
 
 # Obtaining and Building
@@ -60,10 +62,12 @@ you would like to obtain a copy.
 
 # Usage
 
-To use the wrapper add a component to a NUOPC driver by calling
-NUOPC\_DriverAddComp using the wrapper SetServices and then call
-init\_wrapper on the returned ESMF\_GridComp with a name, the root
-MAPL SetServices, and the CAP.rc for the MAPL instance.
+All that's needed to make a MAPL component NUOPC-compatible using this
+wrapper is a build of the wrapper and the root component's SetService
+routine. Then, the wrapper is initialized as a NUOPC model component
+using NUOPC\_DriverAddComp or similar routine, and the resulting ESMF\_GridComp is initialized with a MAPL CAP.rc
+file, the MAPL component's SetServices, and a name with a call to "init_wrapper".
+
 
 ```
 call NUOPC_DriverAddComp(driver, "agcm", wrapper_ss, comp = agcm,
@@ -73,12 +77,17 @@ call init_wrapper(wrapper_gc = agcm, name = "agcm", cap_rc_file =
 "AGCM_CAP.rc", root_set_services = gcs_set_services, rc = rc)
 ```
 
-Then, in the CAP.rc file you can add imports or exports to NUOPC from
-MAPL.
+Then, in the MAPL CAP.rc file given to the wrapper imports and exports
+from the MAPL side can be listed which will automatically advertise
+and realize them in the wrapper's import/export states just like a
+regular NUOPC component. 
 
 For imports add a line called "CAP\_IMPORTS:" followed by a list of
-MAPL import names. For exports it is "CAP\_EXPORTS:"you must also add a comma followed by
-the component name.
+MAPL import names and terminated by a double colon "::".
+
+For exports it is "CAP\_EXPORTS:", and the export name must also be
+followed by a comma and the MAPL component from which the export can
+be found.
 
 For example,
 
@@ -97,8 +106,20 @@ CAP_EXPORTS:
 ::
 ```
 
+In MAPL unsatisfied imports are usually sent to ExtData to be
+fulfilled by a file, however, the cap intercepts the fields listed in
+the CAP\_IMPORTS list, and instead adds them to the MAPL\_Cap's
+import state which is then traversed by the NUOPC wrapper and
+advertised to its import state.
+
+For exports, MAPL's top-level export state is recursively searched for
+fields from the given field name and component name listed in the
+CAP\_EXPORTS list. Then, the fields are added to the cap's export
+state, and are used to advertise to the wrapper's export state.
+
 This will automatically advertise and realize the imports and exports
-for the NUOPC component, and can be connected with other components.
+for the NUOPC model component that is the wrapper, and can be
+connected with other components using standard NUOPC connectors.
 
 # Limitations and Future Work
 
